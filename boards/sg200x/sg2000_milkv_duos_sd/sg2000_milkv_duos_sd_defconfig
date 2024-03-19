@@ -1,5 +1,5 @@
 CONFIG_CHIP_sg2000=y
-CONFIG_BOARD_duo_sd=y
+CONFIG_BOARD_milkv_duos_sd=y
 CONFIG_DDR_CFG_ddr3_1866_x16=y
 CONFIG_ARCH="riscv"
 CONFIG_CROSS_COMPILE="riscv64-unknown-linux-musl-"
