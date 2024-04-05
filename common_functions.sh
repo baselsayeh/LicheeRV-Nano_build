@@ -238,11 +238,28 @@ function pack_burn_image
   # # genimage
   export PATH=${TOP_DIR}/build/tools/common/sd_tools:${PATH}
   export LD_LIBRARY_PATH=$TOP_DIR/build/tools/common/sd_tools/libconfuse/lib:${LD_LIBRARY_PATH}
+  $COMMON_TOOLS_PATH/sd_tools/sd_gen_burn_image_rootless.sh $OUTPUT_DIR
+  popd
+)}
 
-  image=sophpi-duo-`date +%Y%m%d-%H%M`.img
-  cp $COMMON_TOOLS_PATH/sd_tools/genimage.cfg $COMMON_TOOLS_PATH/sd_tools/genimage.cfg.tmp
-  sed -i 's/sophpi-duo.img/'"$image"'/' $COMMON_TOOLS_PATH/sd_tools/genimage.cfg.tmp
-  genimage --config $COMMON_TOOLS_PATH/sd_tools/genimage.cfg.tmp  --rootpath $OUTPUT_DIR/rootfs --inputpath $OUTPUT_DIR --outputpath $OUTPUT_DIR
+function pack_usbdl_image
+{(
+  pushd "$OUTPUT_DIR"
+  [ -d tmp ] && rm -rf tmp
+  set -eux
+  cp -rf $TOOLS_PATH/cv181x/usb_dl $OUTPUT_DIR
+  cd usb_dl
+  unzip -o $OUTPUT_DIR/upgrade.zip
+  cp $OUTPUT_DIR/fip.bin ./
+  set +eux
+  echo "========================================="
+  echo ""
+  echo "usb flash command:"
+  echo ""
+  echo "cd $OUTPUT_DIR/usb_dl && python3 cv181x_dl.py"
+  echo ""
+  echo ""
+  echo "========================================="
 
   popd
 )}
